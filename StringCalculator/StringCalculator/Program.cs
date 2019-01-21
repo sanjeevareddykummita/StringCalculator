@@ -10,10 +10,15 @@ namespace StringCalculator
     {
         static void Main(string[] args)
         {
-
             Console.WriteLine("Please enter numbers\n");
             string numbers = Console.ReadLine();
 
+            Stringcalculator stringCal = new Stringcalculator();
+
+            int sum = stringCal.Add(numbers);
+
+            Console.WriteLine("The sum of given numbers is: " + sum.ToString());
+            Console.ReadKey();
         }
 
     }
