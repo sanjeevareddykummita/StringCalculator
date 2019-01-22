@@ -11,7 +11,7 @@ namespace StringCalculator
         private readonly List<string> _seperators = new List<string> { ",", "\n" };
         private const string _customseperators = "//";
         private const int _startIndexOfNumbersIncludingCustomSeperator = 3; 
-        private const int _startIndexOfCustomSeperator = 2; 
+        private const int _startIndexOfCustomSeperator = 2;
 
         public int Add(string numbers)
         {
@@ -54,6 +54,8 @@ namespace StringCalculator
             if (!lstNumbers.Any(x => x < 0)) return;
 
             var NegativeNumbers = string.Join(",", lstNumbers.Where(x => x < 0).Select(x => x.ToString()).ToArray());
+            Console.WriteLine("Adding negetive numbers is not allowed.");            
+            //System.Environment.Exit(0);
             throw new FormatException("Negatives not Allowed :" + NegativeNumbers + "");
         }
 
@@ -71,30 +73,26 @@ namespace StringCalculator
             
             return _startIndexOfNumbersIncludingCustomSeperator;
         }
-
+        
+        // Getting the custom Seperators and adding to the seperator list.
         private static IList<string> GetCustomSeperators(string numbers)
         {
             numbers = ReplaceBackslashN(numbers);
 
             var allSeperators = numbers.Substring(_startIndexOfCustomSeperator, numbers.IndexOf("\n") - _startIndexOfCustomSeperator);
-
-            var splitSeperators = allSeperators.Split('[').Select(x => x.TrimEnd(']')).ToList(); 
-
-            if (splitSeperators.Contains(string.Empty))
-            {
-                splitSeperators.Remove(string.Empty);
-            }
+            var splitSeperators = allSeperators.Split(' ').ToList();
 
             return splitSeperators;
         }
 
-        // When we enter 1\n2 System is treated as 1\\n2 . To reduce the double to single slash n by using below method.
+        // When user enters 1\n2, System will treat this as 1\\n2 . To reduce the double slash to single slash have used the below method.
         private static string ReplaceBackslashN(string num)
         {
             if (num.Contains("\\n"))
             {
                 num = num.Replace("\\n", "\n");
             }
+
             return num;
         }
     }

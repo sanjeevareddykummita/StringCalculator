@@ -30,6 +30,7 @@ namespace StringCalculatorUnitTests
         [TestCase("1", 1)]
         [TestCase("6,10", 16)]
         [TestCase("50,100,200", 350)]
+        [TestCase("10,11,12,13,14,15,16,17,18,19,20,100,200,300,400,500,1000", 2665)]
         public void Returns_Sum_When_ValidNumbersEntered_String(string numbers, int result) 
         {
             int actual = GetSumOfNumbers(numbers);
@@ -41,7 +42,7 @@ namespace StringCalculatorUnitTests
         [TestCase("//;\n1;2;3", 6)]
         [TestCase("//;\n12;20;25", 57)]
         [TestCase("//$\n2$6$12", 20)]
-        [TestCase("//$\n5$15$50", 70)]
+        [TestCase("//&\n5&15&50", 70)]
         public void Returns_Sum_When_CustomSeperatorPrefixed_Numbers(string numbers, int result) 
         {
             int actual = GetSumOfNumbers(numbers);
@@ -53,7 +54,7 @@ namespace StringCalculatorUnitTests
         [TestCase("-5", -5)]
         [TestCase("12,-12", 0)]
         [TestCase("1,-2,3,-4,-5,6", -1)]
-        [TestCase("9\n-11,23", 21)]
+        [TestCase("-9\n-11,23", 21)]
         [TestCase("//;\n31;-54;-92", -115)]
         [TestCase("//;\n1;2;3", 6)]
         public void Throws_Exception_When_NegativeNumberIn_String(string numbers, int result)
@@ -61,6 +62,7 @@ namespace StringCalculatorUnitTests
             try
             {
                 int actual = GetSumOfNumbers(numbers);
+                Assert.AreEqual(result, actual);
             }
             catch (Exception ex)
             {
