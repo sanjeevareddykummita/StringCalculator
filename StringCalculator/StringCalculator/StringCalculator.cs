@@ -40,10 +40,21 @@ namespace StringCalculator
 
             if (!String.IsNullOrEmpty(numbers.Trim()))
             {
-                var lstNumbers = numbers.Split(_seperators.ToArray(), StringSplitOptions.None).Select(int.Parse).ToList();
-                return lstNumbers.Sum();
+                var listOfNumbers = numbers.Split(_seperators.ToArray(), StringSplitOptions.None).Select(int.Parse).ToList();
+
+                ValidateNumbersAreNonNegative(listOfNumbers);
+
+                return listOfNumbers.Sum();
             }
             return 0;
+        }
+
+        private static void ValidateNumbersAreNonNegative(IReadOnlyCollection<int> lstNumbers)
+        {
+            if (!lstNumbers.Any(x => x < 0)) return;
+
+            var NegativeNumbers = string.Join(",", lstNumbers.Where(x => x < 0).Select(x => x.ToString()).ToArray());
+            throw new FormatException("Negatives not Allowed :" + NegativeNumbers + "");
         }
 
         private string GetNumbersExcludingCustomSeperators(string numbers)

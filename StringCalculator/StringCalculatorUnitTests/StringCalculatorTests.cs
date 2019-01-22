@@ -49,6 +49,24 @@ namespace StringCalculatorUnitTests
             Assert.AreEqual(result, actual);
         }
 
+        [Test]
+        [TestCase("-5", ExpectedResult = -1)]
+        [TestCase("12,-12", ExpectedResult = -10)]
+        [TestCase("1,-2,3,-4,-5,6", ExpectedResult = 1)]
+        [TestCase("9\n-11,23", ExpectedResult = 2)]
+        [TestCase("//;\n31;-54;-92", ExpectedResult = -40)]
+        public void Throws_Exception_When_NegativeNumberIn_String(string numbers, int result)
+        {
+            try
+            {
+                int actual = GetSumOfNumbers(numbers);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         //Method calls from StringCalculator class
         private int GetSumOfNumbers(string numbers)
         {
