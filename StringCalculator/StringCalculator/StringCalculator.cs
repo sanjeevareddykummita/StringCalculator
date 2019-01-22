@@ -8,6 +8,7 @@ namespace StringCalculator
 {
     public class Stringcalculator
     {
+        private readonly List<string> _seperators = new List<string> { "," };
         public int Add(string numbers)
         {
             if (String.IsNullOrWhiteSpace(numbers)) return 0;
@@ -17,7 +18,18 @@ namespace StringCalculator
 
         private int GetSumOfNumbers(string numbers)
         {
-            return Add(numbers);
+            if (numbers.Contains("\""))
+            {
+                  numbers = numbers.Replace("\"", "0");
+                
+            }
+            if (!String.IsNullOrEmpty(numbers.Trim()))
+            {
+                var lstNumbers = numbers.Split(_seperators.ToArray(), StringSplitOptions.None).Select(int.Parse).ToList();
+                return lstNumbers.Sum();
+            }
+            return 0;
+            
         }
 
     }
