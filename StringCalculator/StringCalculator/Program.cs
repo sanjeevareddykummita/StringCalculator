@@ -10,7 +10,7 @@ namespace StringCalculator
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Please enter numbers\n");
+            Console.WriteLine("Please enter numbers \n");
             string numbers = Console.ReadLine();
 
             Stringcalculator stringCal = new Stringcalculator();
