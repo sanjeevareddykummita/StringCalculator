@@ -10,8 +10,15 @@ namespace StringCalculator
     {
         static void Main(string[] args)
         {
-            Program obj = new Program();
-            obj.UserActions();
+            try
+            {
+                Program obj = new Program();
+                obj.UserActions();
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
         public void UserActions()
         {

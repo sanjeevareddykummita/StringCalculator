@@ -43,6 +43,8 @@ namespace StringCalculatorUnitTests
         [TestCase("//;\n12;20;25", 57)]
         [TestCase("//$\n2$6$12", 20)]
         [TestCase("//&\n5&15&50", 70)]
+        [TestCase("10,\"\",20", 30)]
+        [TestCase("11,\",12", 23)]
         public void Returns_Sum_When_CustomSeperatorPrefixed_Numbers(string numbers, int result) 
         {
             int actual = GetSumOfNumbers(numbers);
@@ -56,13 +58,11 @@ namespace StringCalculatorUnitTests
         [TestCase("1,-2,3,-4,-5,6", -1)]
         [TestCase("-9\n-11,23", 21)]
         [TestCase("//;\n31;-54;-92", -115)]
-        [TestCase("//;\n1;2;3", 6)]
         public void Throws_Exception_When_NegativeNumberIn_String(string numbers, int result)
         {
             try
             {
-                int actual = GetSumOfNumbers(numbers);
-                Assert.AreEqual(result, actual);
+                Assert.That(() => GetSumOfNumbers(numbers), Throws.TypeOf<FormatException>());
             }
             catch (Exception ex)
             {

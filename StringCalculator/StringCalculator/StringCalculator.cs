@@ -8,11 +8,20 @@ namespace StringCalculator
 {
     public class Stringcalculator
     {
+        #region Constants
         private readonly List<string> _seperators = new List<string> { ",", "\n" };
         private const string _customseperators = "//";
         private const int _startIndexOfNumbersIncludingCustomSeperator = 3; 
         private const int _startIndexOfCustomSeperator = 2;
+        #endregion
 
+        #region Methods
+
+        /// <summary>
+        /// Add method to calculate
+        /// </summary>
+        /// <param name="numbers"></param>
+        /// <returns></returns>
         public int Add(string numbers)
         {
             if (String.IsNullOrWhiteSpace(numbers)) return 0;
@@ -26,29 +35,46 @@ namespace StringCalculator
             return GetSumOfNumbers(numbers);
         }
         
+        /// <summary>
+        /// Method to handle formats
+        /// </summary>
+        /// <param name="numbers"></param>
+        /// <returns>sum</returns>
         private int GetSumOfNumbers(string numbers)
-        { 
-            if (numbers.Contains("\""))
-            {
-                  numbers = numbers.Replace("\"", "0");
-            }
+        {
+            //try
+            //{
+                if (numbers.Contains("\""))
+                {
+                    numbers = numbers.Replace("\"", "0");
+                }
 
-            if (numbers.IndexOf("\n") == 0)
-            {
-                numbers = numbers.Substring(1);
-            }
+                if (numbers.IndexOf("\n") == 0)
+                {
+                    numbers = numbers.Substring(1);
+                }
 
-            if (!String.IsNullOrEmpty(numbers.Trim()))
-            {
-                var listOfNumbers = numbers.Split(_seperators.ToArray(), StringSplitOptions.None).Select(int.Parse).ToList();
+                if (!String.IsNullOrEmpty(numbers.Trim()))
+                {
+                    var listOfNumbers = numbers.Split(_seperators.ToArray(), StringSplitOptions.None).Select(int.Parse).ToList();
 
-                ValidateNumbersAreNonNegative(listOfNumbers);
+                    ValidateNumbersAreNonNegative(listOfNumbers);
 
-                return listOfNumbers.Sum();
-            }
-            return 0;
+                    return listOfNumbers.Sum();
+                }
+                return 0;
+            //}
+            //catch(Exception ex)
+            //{
+            //    Console.WriteLine(ex.Message);
+            //    return 0 ;       
+            //}
         }
 
+        /// <summary>
+        /// Validating non negetive numbers
+        /// </summary>
+        /// <param name="lstNumbers"></param>
         private static void ValidateNumbersAreNonNegative(IReadOnlyCollection<int> lstNumbers)
         {
             if (!lstNumbers.Any(x => x < 0)) return;
@@ -59,6 +85,11 @@ namespace StringCalculator
             throw new FormatException("Negatives not Allowed :" + NegativeNumbers + "");
         }
 
+        /// <summary>
+        /// Returns substring of input on the seperators 
+        /// </summary>
+        /// <param name="numbers"></param>
+        /// <returns></returns>
         private string GetNumbersExcludingCustomSeperators(string numbers)
         {
             var startIndexOfString = IncludeCustomSeperatorAndReturnStartIndexOfNumbers(numbers);
@@ -66,6 +97,11 @@ namespace StringCalculator
             return numbers.Substring(startIndexOfString);
         }
 
+        /// <summary>
+        /// Handles the custom seperators 
+        /// </summary>
+        /// <param name="numbers"></param>
+        /// <returns></returns>
         private int IncludeCustomSeperatorAndReturnStartIndexOfNumbers(string numbers)
         {
             var customSeperators = GetCustomSeperators(numbers); 
@@ -73,8 +109,13 @@ namespace StringCalculator
             
             return _startIndexOfNumbersIncludingCustomSeperator;
         }
-        
-        // Getting the custom Seperators and adding to the seperator list.
+
+
+        /// <summary>
+        /// Getting the custom Seperators and adding to the seperator list.
+        /// </summary>
+        /// <param name="numbers"></param>
+        /// <returns></returns>
         private static IList<string> GetCustomSeperators(string numbers)
         {
             numbers = ReplaceBackslashN(numbers);
@@ -85,7 +126,11 @@ namespace StringCalculator
             return splitSeperators;
         }
 
-        // When user enters 1\n2, System will treat this as 1\\n2 . To reduce the double slash to single slash have used the below method.
+        /// <summary>
+        /// When user enters 1\n2, System will treat this as 1\\n2 . To reduce the double slash to single slash have used the below method.
+        /// </summary>
+        /// <param name="num"></param>
+        /// <returns></returns>
         private static string ReplaceBackslashN(string num)
         {
             if (num.Contains("\\n"))
@@ -95,5 +140,7 @@ namespace StringCalculator
 
             return num;
         }
+
+        #endregion
     }
 }
